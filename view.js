@@ -56,7 +56,7 @@ function addHeadlinesToList(articles) {
     var li = document.createElement("li");
     var image = document.createElement("img");
     var summaryDiv = document.createElement("div");
-    summaryDiv.setAttribute("id", singleArticle.getId());
+    summaryDiv.setAttribute("id", ("div" + singleArticle.getId()));
     image.src = singleArticle.getThumbnail();
     var text = document.createTextNode(singleArticle.getWebTitle());
     a.id = singleArticle.getId();
@@ -65,7 +65,7 @@ function addHeadlinesToList(articles) {
     a.appendChild(text);
     li.appendChild(image);
     li.appendChild(a);
-    ul.appendChild(summaryDiv);
     ul.appendChild(li);
+    ul.appendChild(summaryDiv);
   });
 }

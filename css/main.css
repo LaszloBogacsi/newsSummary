@@ -1,0 +1,18 @@
+body{
+
+}
+
+ul li{
+  width: 50%;
+  height: 80px;
+  list-style-type: none;
+
+}
+
+ul li a{
+  text-decoration: none;
+}
+
+ul li img{
+  height: 100%;
+}

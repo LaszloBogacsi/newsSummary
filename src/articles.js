@@ -7,7 +7,7 @@ Articles.prototype.getArticlesFromAPI = function () {
   var httpRequest = new XMLHttpRequest();
   var _this = this;
   httpRequest.onreadystatechange = function(){
-    if (httpRequest.readyState == XMLHttpRequest.DONE) {
+    if (httpRequest.readyState === XMLHttpRequest.DONE) {
       _this._returnResult(httpRequest);
     } else {
       return httpRequest.readyState;
@@ -16,6 +16,7 @@ Articles.prototype.getArticlesFromAPI = function () {
   httpRequest.open('GET', 'https://content.guardianapis.com/search?show-fields=thumbnail,body&api-key=f81f1495-6eed-4a8f-bb2c-19e085e510f2', true);
   httpRequest.send(null);
 };
+
 
 Articles.prototype._returnResult = function (httpRequest) {
   if (httpRequest.status === 200) {
@@ -48,6 +49,44 @@ Articles.prototype.createSingleArticle = function () {
 Articles.prototype.addArticleToArticles = function (singleArticle) {
   this.articles.push(singleArticle);
 };
+
+Articles.prototype.getSummaryText = function (id, summary) {
+  var _this = this;
+  this.articles.forEach(function(singleArticle){
+    var articleId = singleArticle.getId();
+    var webUrl = singleArticle.getWebUrl();
+    if (id === articleId) {
+      _this.getSummaryFromApi(webUrl, id);
+    }
+  });
+};
+
+Articles.prototype.getSummaryFromApi = function (webUrl, id) {
+  var httpRequest = new XMLHttpRequest();
+  var _this = this;
+  httpRequest.onreadystatechange = function(){
+    if (httpRequest.readyState === XMLHttpRequest.DONE) {
+      _this._returnResultFromAylien(httpRequest, id);
+    } else {
+      return httpRequest.readyState;
+    }
+  };
+  httpRequest.open('GET', "http://news-summary-api.herokuapp.com/aylien?apiRequestUrl=https://api.aylien.com/api/v1/summarize?url=" + webUrl);
+  httpRequest.send(null);
+};
+
+Articles.prototype._returnResultFromAylien = function (httpRequest, id) {
+  if (httpRequest.status === 200) {
+    var response = httpRequest.responseText;
+    var sumSentences = JSON.parse(response).sentences;
+    summary(sumSentences, id);
+    return sumSentences;
+  } else {
+    return httpRequest.status;
+  }
+};
+
+
 
 // Delete later
 var articles = new Articles();

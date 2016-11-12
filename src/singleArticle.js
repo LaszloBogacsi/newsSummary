@@ -13,6 +13,11 @@ SingleArticle.prototype.getWebTitle = function () {
   return webTitle;
 };
 
+SingleArticle.prototype.getWebUrl = function () {
+  webUrl = this.article.webUrl;
+  return webUrl;
+};
+
 SingleArticle.prototype.getThumbnail = function () {
   thumbnail = this.article.fields.thumbnail;
   return thumbnail;
