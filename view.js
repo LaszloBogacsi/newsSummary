@@ -3,11 +3,10 @@ window.onload = function() {
   // scriptHead('note.js');
   heading("Jekl News");
   div('errors');
-  newsItems();
+  headlinesList();
   div('full');
   // scriptBody('controller.js');
-  console.log("1st");
-  console.log(window.location);
+
   if (findTestFile(window.location) === "testIndex.html") {
      scriptBody('test/newsFeatureSpec.js');
   }
@@ -32,9 +31,9 @@ function div(idValue) {
   document.body.appendChild(div);
 }
 
-function newsItems() {
+function headlinesList() {
   var ul = document.createElement('UL');
-  ul.setAttribute("id", "notes");
+  ul.setAttribute("id", "headlines");
   document.body.appendChild(ul);
 }
 
@@ -50,15 +49,23 @@ function scriptBody(srcValue) {
   document.body.appendChild(script);
 }
 
-function addNoteToList(note) {
-  var a = document.createElement('a');
-  var ul = document.getElementById("notes");
-  var li = document.createElement("li");
-  var text = document.createTextNode(note.truncator(note.getNoteText()));
-  a.id = myNotes.getNoteIndex();
-  a.title = text;
-  a.href = "#" + a.id;
-  a.appendChild(text);
-  li.appendChild(a);
-  ul.appendChild(li);
+function addHeadlinesToList(articles) {
+  articles.forEach(function(singleArticle){
+    var a = document.createElement('a');
+    var ul = document.getElementById("headlines");
+    var li = document.createElement("li");
+    var image = document.createElement("img");
+    var summaryDiv = document.createElement("div");
+    summaryDiv.setAttribute("id", singleArticle.getId());
+    image.src = singleArticle.getThumbnail();
+    var text = document.createTextNode(singleArticle.getWebTitle());
+    a.id = singleArticle.getId();
+    a.title = text;
+    a.href = "#" + a.id;
+    a.appendChild(text);
+    li.appendChild(image);
+    li.appendChild(a);
+    ul.appendChild(summaryDiv);
+    ul.appendChild(li);
+  });
 }

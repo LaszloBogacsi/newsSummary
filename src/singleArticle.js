@@ -1,38 +1,29 @@
-function singleArticle (url) {
-  this.url = url;
-  this.headline = "";
-  this.image = "";
-  this.newsSummary = "";
+function SingleArticle(article) {
+  this.article = article;
+
 }
 
-singleArticle.prototype.getInfoFromAPI = function () {
-  var httpRequest = new XMLHttpRequest();
-  var _this = this;
-  httpRequest.onreadystatechange = function() {
-    if (httpRequest.readyState === XMLHttpRequest.DONE) {
-      _this._responseHandler(httpRequest);
-    } else {
-      return httpRequest.readyState;
-    }
-  };
-  httpRequest.open('GET', url+'?show-fields=body', true);
-  httpRequest.send(null);
+SingleArticle.prototype.getSingleArticleApiUrl = function (article) {
+  var apiUrl = this.article.apiUrl;
+  return apiUrl;
 };
 
-singleArticle.prototype._responseHandler = function (httpRequest) {
-  if (httpRequest.status === 200) {
-    this.headline = httpRequest.responseText.response.content.webTitle;
-  } else {
-    return httpRequest.status;
-  }
+SingleArticle.prototype.getWebTitle = function () {
+  webTitle = this.article.webTitle;
+  return webTitle;
 };
 
-var objects = []
+SingleArticle.prototype.getThumbnail = function () {
+  thumbnail = this.article.fields.thumbnail;
+  return thumbnail;
+};
 
-Article.apiURLS.forEach(function(url, index){
-  objects.push('article' + index = new Article(url);)
-});
+SingleArticle.prototype.getBody = function () {
+  body = this.article.fields.body;
+  return body;
+};
 
-objects.forEach(function(article){
-  article.getInfoFromAPI();
-})
+SingleArticle.prototype.getId = function () {
+  id = this.article.id;
+  return id;
+};
