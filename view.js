@@ -60,7 +60,6 @@ function addHeadlinesToList(articles) {
     image.src = singleArticle.getThumbnail();
     var text = document.createTextNode(singleArticle.getWebTitle());
     a.id = singleArticle.getId();
-    a.title = text;
     a.href = "#" + a.id;
     a.appendChild(text);
     li.appendChild(image);
@@ -68,4 +67,21 @@ function addHeadlinesToList(articles) {
     ul.appendChild(li);
     ul.appendChild(summaryDiv);
   });
+}
+function summary(sentences, id){
+  divId = "div" + id;
+  var a = document.createElement('a');
+  a.id = id;
+  text = document.createTextNode("Read more");
+  a.title = text;
+  a.href = "#full" + a.id;
+  var theDiv = document.getElementById(divId);
+  theDiv.innerHTML = sentences;
+  a.appendChild(text);
+  theDiv.appendChild(a);
+}
+
+function showFull(fullArticleBody){
+  var full = document.getElementById("full");
+  full.innerHTML = fullArticleBody;
 }

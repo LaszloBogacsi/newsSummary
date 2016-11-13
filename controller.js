@@ -5,7 +5,25 @@ function makeURLRenderSummary() {
 }
 
 function getArticleIdForCurrentPage () {
-  showSummary(getArticleIdFromUrl(window.location));
+  id = getArticleIdFromUrl(window.location);
+  if (isIdFullArticle(id) === true) {
+    fullId = id.slice(4);
+    console.log(fullId);
+    showFullArticle(fullId);
+  } else {
+    console.log("hellosummary");
+    showSummary(id);
+  }
+}
+
+function isIdFullArticle (id) {
+  console.log(id);
+  console.log(id.slice(0,4));
+  if ("full" === id.slice(0, 4)) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 function getArticleIdFromUrl (location) {
@@ -15,7 +33,7 @@ function getArticleIdFromUrl (location) {
 function showSummary(id) {
   articles.getSummaryText(id, summary);
 }
-function summary(sentences, id){
-  divId = "div" + id;
-  document.getElementById(divId).innerHTML = sentences;
+
+function showFullArticle(id) {
+  articles.getFullArticleText(id);
 }

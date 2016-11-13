@@ -56,9 +56,14 @@ Articles.prototype.getSummaryText = function (id, summary) {
     var articleId = singleArticle.getId();
     var webUrl = singleArticle.getWebUrl();
     if (id === articleId) {
-      _this.getSummaryFromApi(webUrl, id);
+      _this.getSummaryFromApi(webUrl, id); //add fake if needed;
     }
   });
+};
+
+Articles.prototype.fakeGetSummaryFromApi = function (webUrl, id) {
+  sumSentences = ["sentence1", "sentence2", "sentence3", "sentence4", "sentence5"];
+  summary(sumSentences, id);
 };
 
 Articles.prototype.getSummaryFromApi = function (webUrl, id) {
@@ -80,13 +85,21 @@ Articles.prototype._returnResultFromAylien = function (httpRequest, id) {
     var response = httpRequest.responseText;
     var sumSentences = JSON.parse(response).sentences;
     summary(sumSentences, id);
-    return sumSentences;
   } else {
     return httpRequest.status;
   }
 };
 
 
+Articles.prototype.getFullArticleText = function (id) {
+  var _this = this;
+  this.articles.forEach(function(singleArticle){
+    var articleId = singleArticle.getId();
+    if (id === articleId) {
+      showFull(singleArticle.getBody());
+    }
+  });
+};
 
 // Delete later
 var articles = new Articles();
