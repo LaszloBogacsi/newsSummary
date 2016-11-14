@@ -3,12 +3,21 @@ function Articles (){
   this.articles = [];
 }
 
-Articles.prototype.getArticlesFromAPI = function () {
+Articles.prototype.apiHandler = function (apiUrl, webUrl, id) {
+this.getDataFromAPI(apiUrl, this._returnResult, this.pushToItemsArray);
+
+};
+
+Articles.prototype.aylienApiHandler = function (webUrl, id) {
+this.getSummaryFromApi(webUrl, id, this);
+};
+
+Articles.prototype.getDataFromAPI = function (apiUrl, _resultHandler, responseHandler) {
   var httpRequest = new XMLHttpRequest();
-  var _this = this;
+  var _returnResult = _resultHandler;
   httpRequest.onreadystatechange = function(){
     if (httpRequest.readyState === XMLHttpRequest.DONE) {
-      _this._returnResult(httpRequest);
+      _returnResult(httpRequest, responseHandler);
     } else {
       return httpRequest.readyState;
     }
@@ -18,10 +27,12 @@ Articles.prototype.getArticlesFromAPI = function () {
 };
 
 
-Articles.prototype._returnResult = function (httpRequest) {
+Articles.prototype._returnResult = function (httpRequest, responseHandler) {
+  var pushToItemsArray = responseHandler;
   if (httpRequest.status === 200) {
     var response = httpRequest.responseText;
-    this.pushToItemsArray(response);
+    pushToItemsArray(response);
+
   } else {
     return httpRequest.status;
   }
@@ -29,7 +40,7 @@ Articles.prototype._returnResult = function (httpRequest) {
 
 Articles.prototype.pushToItemsArray = function (response) {
   var headers = JSON.parse(response);
-  this.items.push(headers);
+  this.items.push(headers); //fix the scope of this.
   this.createSingleArticle();
 };
 
@@ -103,6 +114,6 @@ Articles.prototype.getFullArticleText = function (id) {
 
 // Delete later
 var articles = new Articles();
-articles.getArticlesFromAPI();
+articles.apiHandler();
 
 //
